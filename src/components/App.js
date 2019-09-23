@@ -14,7 +14,8 @@ class App extends React.Component {
       previousCommand: 'he + llo',
       display: '0',
       displayResult: false,
-      moreEqualsPresses: ''
+      moreEqualsPresses: '',
+      lastPressedButton: ''
     }
   }
 
@@ -44,6 +45,10 @@ class App extends React.Component {
     }
     );
 
+    this.setState((state) => {
+      return {lastPressedButton: 'clear'}
+    });
+
     this.display();
   }
 
@@ -56,6 +61,10 @@ class App extends React.Component {
       } else if (state.secondTerm === '' && state.currentOperator === '' && state.firstTerm !== '') {
         return {firstTerm: state.firstTerm.slice(0, -1)}
       }
+    });
+
+    this.setState((state) => {
+      return {lastPressedButton: 'delete'}
     });
 
     this.display();
@@ -75,7 +84,7 @@ class App extends React.Component {
     });
 
     this.setState((state) => {
-      return {displayResult: false}
+      return {displayResult: false, lastPressedButton: 'number'}
     })
 
     this.display();
@@ -87,15 +96,21 @@ class App extends React.Component {
         return {firstTerm: '0.'}
       } else if (state.firstTerm !== '' && state.currentOperator === '' && state.firstTerm.indexOf('.') === -1) {
         return {firstTerm: state.firstTerm + '.'}
-      } else if (state.firstTerm !== '' && state.currentOperator !== '' && state.secondTerm === '') {
+      } else if (state.firstTerm !== '' && state.currentOperator !== '' && state.lastPressedButton === 'operator') {
         return {secondTerm: '0.'}
-      } else if (state.secondTerm.indexOf('.') === -1){
+      } else if (state.secondTerm !== '' && state.secondTerm.indexOf('.') === -1){
         return {secondTerm: state.secondTerm + '.'}
+      } else {
+        return {
+          firstTerm: '0.',
+          secondTerm: '',
+          currentOperator: ''
+        }
       }
     });
 
     this.setState((state) => {
-      return {displayResult: false}
+      return {displayResult: false, lastPressedButton: 'decimal'}
     })
 
     this.display();
@@ -114,18 +129,11 @@ class App extends React.Component {
       } else if (state.firstTerm !== '' && state.operator !== '' && state.secondTerm === '') {
         return {currentOperator: operator}
       } else {
-        // if state.display contains an operator
-        // if (state.display.search(/[+-/*]/) !== -1) { // TODO: escape the regex
-        //   let result = this.computeResult();
       }
-      // return {
-        //   currentResult: result,
-        //   firstTerm: result,
-        //   secondTerm: '',
-        //   currentOperator: operator,
-        //   previousCommand: `${state.firstTerm} ${operator}`,
-        //   displayResult: true
-        // }
+    });
+
+    this.setState((state) => {
+      return {lastPressedButton: 'operator'}
     });
 
     this.display();
@@ -164,6 +172,10 @@ class App extends React.Component {
           displayResult: true
         }
       }
+    });
+
+    this.setState((state) => {
+      return {lastPressedButton: 'equals'}
     });
 
     this.display();
