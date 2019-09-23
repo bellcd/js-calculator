@@ -26,14 +26,25 @@ class App extends React.Component {
 
   buttonClear() {
     this.setState((state) => {
-      return {
-        firstTerm: '',
-        currentOperator: '',
-        secondTerm: '',
-        displayResult: false
+      if (state.firstTerm === '' && state.currentOperator === '' && state.secondTerm === '') {
+        return {
+          previousCommand: '',
+          displayResult: false
+        }
+      } else {
+        return {
+          firstTerm: '',
+          currentOperator: '',
+          secondTerm: '',
+          displayResult: false,
+          currentResult: '',
+          moreEqualsPresses: ''
+        }
       }
     }
     );
+
+    this.display();
   }
 
   buttonNumber(number) {
