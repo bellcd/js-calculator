@@ -19,6 +19,7 @@ class App extends React.Component {
     }
   }
 
+  // adds lastPressedButton
   display() {
     this.setState((state) => {
       return {display: state.displayResult ? state.firstTerm : `${state.firstTerm === '' ? '' : state.firstTerm}${state.currentOperator === '' ? '' : ' ' + state.currentOperator + ' '}${state.secondTerm === '' ? '' : state.secondTerm}`}
