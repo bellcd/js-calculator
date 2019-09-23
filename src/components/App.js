@@ -12,7 +12,6 @@ class App extends React.Component {
       currentOperator: '',
       currentResult: 'hello',
       previousCommand: 'he + llo',
-      currentCommand: '',
       display: 0,
       displayResult: false
     }
@@ -20,17 +19,11 @@ class App extends React.Component {
 
   display() {
     this.setState((state) => {
-      return {
-        currentCommand: `${state.firstTerm === '' ? '' : state.firstTerm}${state.currentOperator === '' ? '' : ' ' + state.currentOperator + ' '}${state.secondTerm === '' ? '' : state.secondTerm}`
-      }
-    });
-
-    this.setState((state) => {
-      return {display: state.displayResult ? state.firstTerm : state.currentCommand}
+      return {display: state.displayResult ? state.firstTerm : `${state.firstTerm === '' ? '' : state.firstTerm}${state.currentOperator === '' ? '' : ' ' + state.currentOperator + ' '}${state.secondTerm === '' ? '' : state.secondTerm}`}
     });
   }
 
-  clearCurrentCommand() {
+  buttonClear() {
     this.setState((state) => {
       return {
         firstTerm: '',
@@ -40,26 +33,9 @@ class App extends React.Component {
       }
     }
     );
-
-    this.setState((state) => {
-      return {currentCommand: `${state.firstTerm} ${state.currentOperator} ${state.secondTerm}`}
-    });
-  }
-
-  buttonClear() {
-    // if currentCommand is NOT ''
-          // set currentCommand to ''
-        // else, set previousCommand to ''
-    this.setState((state) => {
-      return {currentCommand: state.currentCommand === '' ? state.previousCommand === '' : 'placeholder'}
-    });
-
-    this.clearCurrentCommand();
   }
 
   buttonNumber(number) {
-    // debugger;
-    // console.log(number);
     this.setState((state) => {
       if (state.firstTerm === '') {
         return {firstTerm: number}
@@ -100,7 +76,6 @@ class App extends React.Component {
   }
 
   buttonOperator(operator) {
-
     this.setState((state) => {
       return {displayResult: false}
     })
@@ -113,15 +88,14 @@ class App extends React.Component {
       } else if (state.firstTerm !== '' && state.operator !== '' && state.secondTerm === '') {
         return {currentOperator: operator}
       } else {
-        let result = this.computeResult();
+        let result = this.computeResult(undefined, operator);
         return {
           currentResult: result,
-          firstTerm: state.currentResult,
+          firstTerm: result,
           secondTerm: '',
           currentOperator: operator,
-          previousCommand: state.currentCommand,
-          currentCommand: `${state.firstTerm} ${operator}`, // ???
-          display: state.currentResult // not calling this.display(), because buttonOperator does computations ??
+          previousCommand: `${state.firstTerm} ${operator}`,
+          displayResult: true
         }
       }
     });
@@ -142,15 +116,15 @@ class App extends React.Component {
       } else if (state.firstTerm !== '' && state.operator !== '' && state.secondTerm === '') {
         // do nothing
       } else {
+        // debugger;
         let result = this.computeResult();
         return {
           currentResult: result,
-          firstTerm: state.currentResult,
+          firstTerm: result,
           // secondTerm stays as it is
           // currentOperator stays as it is
-          previousCommand: state.currentCommand,
-          currentCommand: `${state.firstTerm} ${state.operator} ${state.secondTerm}`,
-          display: state.currentResult // not calling this.display(), because equals does computations ??
+          previousCommand: `${state.firstTerm} ${state.currentOperator} ${state.secondTerm}`,
+          displayResult: true
         }
       }
     });
@@ -158,15 +132,11 @@ class App extends React.Component {
     this.display();
   }
 
-  computeResult() {
-    this.setState((state) => {
-      return {displayResult: true}
-    });
-
+  computeResult(firstTerm, operator, secondTerm) {
     let result = null;
-    const firstTerm = Number(this.state.firstTerm);
-    const operator = Number(this.state.currentOperator);
-    const secondTerm = Number(this.state.secondTerm);
+    firstTerm = firstTerm === undefined ? Number(this.state.firstTerm) : firstTerm;
+    operator = operator === undefined ? this.state.currentOperator : operator;
+    secondTerm = secondTerm === undefined ? Number(this.state.secondTerm) : secondTerm;
 
     if (operator === '+') {
       result = firstTerm + secondTerm;
