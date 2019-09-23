@@ -1,9 +1,10 @@
 import React from 'react';
 
-let Display = () => {
+let Display = ({display, previousCommand}) => {
   return (
-    <div>
-      This will be the display of the calculator.
+    <div className="display">
+      <div>{display}</div>
+      <div>{previousCommand}</div>
     </div>
   );
 }

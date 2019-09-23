@@ -1,8 +1,8 @@
 import React from 'react';
 
-let Button = ({icon}) => {
+let Button = ({icon, onButtonPress}) => {
   return (
-    <div>{icon}</div>
+    <div onClick={(e) => onButtonPress(e)}>{icon}</div>
   );
 }
 
