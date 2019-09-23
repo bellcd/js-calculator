@@ -10,8 +10,8 @@ class App extends React.Component {
       firstTerm: '',
       secondTerm: '',
       currentOperator: '',
-      currentResult: 'hello',
-      previousCommand: 'he + llo',
+      currentResult: '',
+      previousCommand: '',
       display: '0',
       displayResult: false,
       moreEqualsPresses: '',
@@ -19,7 +19,6 @@ class App extends React.Component {
     }
   }
 
-  // adds lastPressedButton
   display() {
     this.setState((state) => {
       return {display: state.displayResult ? state.firstTerm : `${state.firstTerm === '' ? '' : state.firstTerm}${state.currentOperator === '' ? '' : ' ' + state.currentOperator + ' '}${state.secondTerm === '' ? '' : state.secondTerm}`}
@@ -132,6 +131,21 @@ class App extends React.Component {
     this.display();
   }
 
+  buttonPercent() {
+    this.setState((state) => {
+      let result;
+      let toAdd = {lastPressedButton: 'percent'};
+      if (state.secondTerm === '' && state.firstTerm !== '') {
+        result = Object.assign({}, toAdd, {firstTerm: state.firstTerm / 100});
+      } else if (state.secondTerm !== '') {
+        result = Object.assign({}, toAdd, {secondTerm: state.secondTerm / 100});
+      }
+      return result;
+    });
+
+    this.display();
+  }
+
   buttonOperator(operator) {
     this.setState((state) => {
       return {displayResult: false}
@@ -233,21 +247,9 @@ class App extends React.Component {
       this.buttonEquals();
     } else if (buttonChar === '+/-') {
       this.buttonPlusMinus();
+    } else if (buttonChar === '%') {
+      this.buttonPercent();
     }
-
-        // else if firstTerm is NOT '' && secondTerm is ''
-        // else if firstTerm is NOT '' && secondTerm is NOT ''
-
-          // else if buttonChar is delete
-            // delete one term from secondTerm, operator, firstTerm --- in that order
-          // else if buttonChar is plus/minus
-            // if operator is ''
-              // change sign of firstTerm
-            // else, change sign of secondTerm
-          // else if buttonChar is percent
-            // if operator is ''
-              // divide firstTerm by 100
-            // else, divide secondTerm by 100
   }
 
   render() {
