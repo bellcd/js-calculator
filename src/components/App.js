@@ -12,8 +12,9 @@ class App extends React.Component {
       currentOperator: '',
       currentResult: 'hello',
       previousCommand: 'he + llo',
-      display: 0,
-      displayResult: false
+      display: '0',
+      displayResult: false,
+      moreEqualsPresses: ''
     }
   }
 
@@ -88,16 +89,18 @@ class App extends React.Component {
       } else if (state.firstTerm !== '' && state.operator !== '' && state.secondTerm === '') {
         return {currentOperator: operator}
       } else {
-        let result = this.computeResult(undefined, operator);
-        return {
-          currentResult: result,
-          firstTerm: result,
-          secondTerm: '',
-          currentOperator: operator,
-          previousCommand: `${state.firstTerm} ${operator}`,
-          displayResult: true
-        }
+        // if state.display contains an operator
+        // if (state.display.search(/[+-/*]/) !== -1) { // TODO: escape the regex
+        //   let result = this.computeResult();
       }
+      // return {
+        //   currentResult: result,
+        //   firstTerm: result,
+        //   secondTerm: '',
+        //   currentOperator: operator,
+        //   previousCommand: `${state.firstTerm} ${operator}`,
+        //   displayResult: true
+        // }
     });
 
     this.display();
@@ -111,17 +114,28 @@ class App extends React.Component {
     this.setState((state) => {
       if (state.firstTerm === '') {
         // do nothing
-      } else if (state.firstTerm !== '' && state.operator === '') {
+      } else if (state.firstTerm !== '' && state.currentOperator === '') {
         // do nothing
-      } else if (state.firstTerm !== '' && state.operator !== '' && state.secondTerm === '') {
-        // do nothing
+      } else if (state.firstTerm !== '' && state.currentOperator !== '' && state.secondTerm === '' && state.moreEqualsPresses !== '') {
+        debugger;
+        let result = this.computeResult(undefined, undefined, state.moreEqualsPresses);
+        return {
+          currentResult: result + '',
+          firstTerm: result + '',
+          // moreEqualsPresses stays as it is
+          // secondTerm statys as it is
+          // currentOperator stays as it is
+          previousCommand: `${state.firstTerm} ${state.currentOperator} ${state.moreEqualsPresses}`,
+          displayResult: true
+        }
       } else {
         // debugger;
         let result = this.computeResult();
         return {
-          currentResult: result,
-          firstTerm: result,
-          // secondTerm stays as it is
+          currentResult: result + '',
+          firstTerm: result + '',
+          moreEqualsPresses: state.secondTerm,
+          secondTerm: '',
           // currentOperator stays as it is
           previousCommand: `${state.firstTerm} ${state.currentOperator} ${state.secondTerm}`,
           displayResult: true
