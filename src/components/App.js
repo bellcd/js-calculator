@@ -47,6 +47,20 @@ class App extends React.Component {
     this.display();
   }
 
+  buttonDelete() {
+    this.setState((state) => {
+      if (state.secondTerm !== '') {
+        return {secondTerm: state.secondTerm.slice(0, -1)}
+      } else if (state.secondTerm === '' && state.currentOperator !== '') {
+        return {currentOperator: ''}
+      } else if (state.secondTerm === '' && state.currentOperator === '' && state.firstTerm !== '') {
+        return {firstTerm: state.firstTerm.slice(0, -1)}
+      }
+    });
+
+    this.display();
+  }
+
   buttonNumber(number) {
     this.setState((state) => {
       if (state.firstTerm === '') {
@@ -128,7 +142,6 @@ class App extends React.Component {
       } else if (state.firstTerm !== '' && state.currentOperator === '') {
         // do nothing
       } else if (state.firstTerm !== '' && state.currentOperator !== '' && state.secondTerm === '' && state.moreEqualsPresses !== '') {
-        debugger;
         let result = this.computeResult(undefined, undefined, state.moreEqualsPresses);
         return {
           currentResult: result + '',
@@ -140,7 +153,6 @@ class App extends React.Component {
           displayResult: true
         }
       } else {
-        // debugger;
         let result = this.computeResult();
         return {
           currentResult: result + '',
@@ -178,11 +190,11 @@ class App extends React.Component {
 
   buttonPress(e) {
     let buttonChar = e.target.textContent;
-    // ???
-    // result of current button press depends on the last character of this.state.currentCommand
 
     if (buttonChar === 'clear') {
       this.buttonClear();
+    } else if (buttonChar === 'delete') {
+      this.buttonDelete();
     } else if (typeof Number(buttonChar) === 'number' && !Number.isNaN(Number(buttonChar))) {
       this.buttonNumber(buttonChar);
     } else if (buttonChar === '.') {
