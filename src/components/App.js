@@ -117,6 +117,21 @@ class App extends React.Component {
     this.display();
   }
 
+  buttonPlusMinus() {
+    this.setState((state) => {
+      let result;
+      let toAdd = {lastPressedButton: 'plusMinus'};
+      if (state.secondTerm === '' && state.firstTerm !== '') {
+        result = Object.assign({}, toAdd, {firstTerm: state.firstTerm * -1});
+      } else if (state.secondTerm !== '') {
+        result = Object.assign({}, toAdd, {secondTerm: state.secondTerm * -1});
+      }
+      return result;
+    });
+
+    this.display();
+  }
+
   buttonOperator(operator) {
     this.setState((state) => {
       return {displayResult: false}
@@ -216,6 +231,8 @@ class App extends React.Component {
       this.buttonOperator(buttonChar);
     } else if (buttonChar === '=') {
       this.buttonEquals();
+    } else if (buttonChar === '+/-') {
+      this.buttonPlusMinus();
     }
 
         // else if firstTerm is NOT '' && secondTerm is ''
