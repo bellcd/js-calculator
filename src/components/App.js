@@ -183,9 +183,9 @@ class App extends React.Component {
 
   computeResult(firstTerm, operator, secondTerm) {
     let result = null;
-    firstTerm = firstTerm === undefined ? Number(this.state.firstTerm) : firstTerm;
+    firstTerm = firstTerm === undefined ? Number(this.state.firstTerm) : Number(firstTerm);
     operator = operator === undefined ? this.state.currentOperator : operator;
-    secondTerm = secondTerm === undefined ? Number(this.state.secondTerm) : secondTerm;
+    secondTerm = secondTerm === undefined ? Number(this.state.secondTerm) : Number(secondTerm);
 
     if (operator === '+') {
       result = firstTerm + secondTerm;
