@@ -255,8 +255,14 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Display display={this.state.display} previousCommand={this.state.previousCommand}/>
-        <Grid onButtonPress={this.buttonPress.bind(this)}/>
+        <h1 className="title">JavaScript Calculator</h1>
+        <div className="calc-container">
+          <div>
+            <Display display={this.state.display} previousCommand={this.state.previousCommand}/>
+            <Grid onButtonPress={this.buttonPress.bind(this)}/>
+          </div>
+        </div>
+        <footer className="footer">Made with ❤️ by Christian Bell</footer>
       </div>
     );
   }

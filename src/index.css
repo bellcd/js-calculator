@@ -12,14 +12,56 @@ code {
     monospace;
 }
 
+/* TITLE */
+.title {
+  text-align: center;
+}
+
+/* CALCULATOR */
+.calc-container {
+  display: flex;
+  justify-content: center;
+}
+
+/* KEYPAD */
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 4rem);
   grid-template-rows: repeat(5, 1fr);
   align-items: center;
-  justify-items: center;
+  grid-gap: 10px;
+  justify-content: center;
+}
+
+.keypad-button {
+  text-align: center;
+  background-color: yellow;
+  padding: 0.5rem;
+}
+
+/* DISPLAY WINDOW */
+.display-container {
+  text-align: right;
 }
 
 .display {
-  text-align: right;
+  border-bottom: 1px black solid;
+  padding: 3px;
+  min-height: 1.3rem;
+}
+
+.previous-command {
+  color: gray;
+  font-size: 0.75rem;
+  line-height: 1.3rem;
+  padding: 3px;
+  min-height: 1.3rem;
+}
+
+/* FOOTER */
+.footer {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  font-size: 0.6rem;
 }
