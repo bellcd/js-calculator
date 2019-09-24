@@ -262,7 +262,7 @@ class App extends React.Component {
             <Grid onButtonPress={this.buttonPress.bind(this)}/>
           </div>
         </div>
-        <footer className="footer">Made with ❤️ by Christian Bell</footer>
+        <footer className="footer">Made with ❤️ by <a href="https://bellcd.github.io/">Christian Bell</a></footer>
       </div>
     );
   }
